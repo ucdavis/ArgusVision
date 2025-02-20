@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   devcontainer:
@@ -7,12 +7,10 @@ services:
       dockerfile: .devcontainer/Dockerfile
     volumes:
       - ..:/workspace:cached
-    # Forward ports so you can reach the services
+    command: sleep infinity
     ports:
-      - 3000:3000   # Next.js
-      - 8000:8000   # FastAPI
-    networks:
-      - argus-vision
+      - 3002:3000 # Next.js
+      - 8000:8000 # FastAPI
 
   db:
     image: postgres:17
@@ -25,12 +23,6 @@ services:
       - 5434:5432
     volumes:
       - ./pg_data:/var/lib/postgresql/data
-    networks:
-      - argus-vision
-
-networks:
-  argus-vision:
-    driver: bridge
 
 volumes:
   pg_data:
