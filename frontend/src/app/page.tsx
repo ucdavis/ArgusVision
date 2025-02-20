@@ -1,7 +1,13 @@
 import Image from "next/image";
 import styles from "./page.module.css";
+import { auth } from "@/auth";
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth();
+
+  // TODO: bad practice, should redirect to login page
+  if (!session?.user) return null;
+
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -13,6 +19,7 @@ export default function Home() {
           height={38}
           priority
         />
+        <h3>Hello {session.user.name}</h3>
         <ol>
           <li>
             Get started by editing <code>src/app/page.tsx</code>.
