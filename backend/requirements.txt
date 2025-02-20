@@ -1,6 +1,5 @@
 fastapi
 fastapi[standard]
+fastapi-nextauth-jwt # to verify tokens from frontend
 uvicorn
 python-dotenv
-# If you plan to verify tokens using JWT
-python-jose[cryptography]

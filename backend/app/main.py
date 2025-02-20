@@ -1,12 +1,31 @@
 import os
-from fastapi import FastAPI, Depends, HTTPException, status
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from jose import jwt, JWTError
+from typing import Annotated
+from fastapi import FastAPI, Depends
+from fastapi.security import HTTPBearer
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi_nextauth_jwt import NextAuthJWT
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI()
-token_auth_scheme = HTTPBearer()  # to parse auth header
 
+# TODO: read from config for valid deploy urls
+origins = ["http://localhost:3002"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# for security, we'll read the nextauth jwt secret pass in cookies
 JWT_SECRET = os.environ.get("JWT_SECRET", "YOUR_JWT_SECRET")
+JWT = NextAuthJWT(
+    secret=JWT_SECRET,
+)
 
 
 @app.get("/")
@@ -15,15 +34,7 @@ def read_root():
 
 
 @app.get("/secure-endpoint")
-def secure_endpoint(credentials: HTTPAuthorizationCredentials = Depends(token_auth_scheme)):
-    print(credentials)
-    try:
-        payload = jwt.decode(credentials.credentials,
-                             JWT_SECRET, algorithms=["HS256"])
+def secure_endpoint(jwt: Annotated[dict, Depends(JWT)]):
+    print(jwt)
 
-        return {"message": "You have accessed a secure endpoint", "payload": payload}
-    except JWTError:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid token",
-        )
+    return {"message": "You have accessed a secure endpoint", "payload": jwt}

@@ -1,5 +1,4 @@
 "use client";
-import { secureEndpointAction } from "@/lib/actions";
 import React, { useState } from "react";
 
 const BackendClient: React.FC = () => {
@@ -7,7 +6,10 @@ const BackendClient: React.FC = () => {
 
   const handleClick = async () => {
     try {
-      const data = await secureEndpointAction();
+      const response = await fetch("http://localhost:8000/secure-endpoint", {
+        credentials: "include",
+      });
+      const data = await response.json();
       setResult(JSON.stringify(data, null, 2));
     } catch (error) {
       setResult(`Error: ${error}`);
