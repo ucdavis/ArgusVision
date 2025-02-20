@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  devcontainer:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ..:/workspace:cached
+    # Forward ports so you can reach the services
+    ports:
+      - 3000:3000   # Next.js
+      - 8000:8000   # FastAPI
+    networks:
+      - argus-vision
+
+  db:
+    image: postgres:17
+    container_name: argus-postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: argusvision
+    ports:
+      - 5434:5432
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data
+    networks:
+      - argus-vision
+
+networks:
+  argus-vision:
+    driver: bridge
+
+volumes:
+  pg_data:
