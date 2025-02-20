@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+python-dotenv
+# If you plan to verify tokens using JWT
+python-jose[cryptography]
