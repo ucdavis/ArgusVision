@@ -16,9 +16,10 @@ def read_root():
 
 @app.get("/secure-endpoint")
 def secure_endpoint(credentials: HTTPAuthorizationCredentials = Depends(token_auth_scheme)):
+    print(credentials)
     try:
         payload = jwt.decode(credentials.credentials,
-                             "YOUR_JWT_SECRET_KEY", algorithms=["HS256"])
+                             JWT_SECRET, algorithms=["HS256"])
 
         return {"message": "You have accessed a secure endpoint", "payload": payload}
     except JWTError:

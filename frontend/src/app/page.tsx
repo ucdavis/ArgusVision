@@ -1,6 +1,7 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 import { auth } from "@/auth";
+import BackendClient from "@/components/backendClient";
 
 export default async function Home() {
   const session = await auth();
@@ -26,7 +27,7 @@ export default async function Home() {
           </li>
           <li>Save and see your changes instantly.</li>
         </ol>
-
+        <BackendClient />
         <div className={styles.ctas}>
           <a
             className={styles.primary}
