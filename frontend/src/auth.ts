@@ -10,6 +10,13 @@ export const { handlers, auth, signIn } = NextAuth({
     }),
   ],
   callbacks: {
+    jwt(params) {
+      // we want to remove the picture from the token - it's too big
+      return {
+        ...params.token,
+        picture: undefined,
+      };
+    },
     authorized: async ({ auth }) => {
       // Logged in users are authenticated, otherwise redirect to login page
       return !!auth;
