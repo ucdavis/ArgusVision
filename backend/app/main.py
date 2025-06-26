@@ -1,3 +1,9 @@
+"""ArgusVision FastAPI backend application.
+
+This module provides the main FastAPI application with authentication
+and CORS middleware for the ArgusVision backend.
+"""
+
 import os
 from typing import Annotated
 from fastapi import FastAPI, Depends
@@ -30,11 +36,24 @@ JWT = NextAuthJWT(
 
 @app.get("/")
 def read_root():
+    """Root endpoint returning a welcome message.
+    
+    Returns:
+        dict: A dictionary containing a welcome message.
+    """
     return {"message": "Hello from ArgusVision FastAPI backend"}
 
 
 @app.get("/secure-endpoint")
 def secure_endpoint(jwt: Annotated[dict, Depends(JWT)]):
+    """Secure endpoint that requires JWT authentication.
+    
+    Args:
+        jwt (dict): JWT payload containing user authentication data.
+        
+    Returns:
+        dict: A dictionary containing confirmation message and JWT payload.
+    """
     print(jwt)
 
     return {"message": "You have accessed a secure endpoint", "payload": jwt}

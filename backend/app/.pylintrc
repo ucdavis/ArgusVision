@@ -1,0 +1,43 @@
+[MESSAGES CONTROL]
+# Disable import-error for known working packages
+disable=import-error
+
+[MASTER]
+# List of plugins (as comma separated values of python modules names) to load
+load-plugins=
+
+# Use multiple processes to speed up Pylint
+jobs=1
+
+# Allow loading of arbitrary C extensions
+unsafe-load-any-extension=no
+
+[TYPECHECK]
+# List of module names for which member attributes should not be checked
+ignored-modules=fastapi,fastapi.security,fastapi.middleware.cors,fastapi_nextauth_jwt,dotenv
+
+# List of class names for which member attributes should not be checked
+ignored-classes=
+
+[FORMAT]
+# Maximum number of characters on a single line
+max-line-length=100
+
+# String used as indentation unit
+indent-string='    '
+
+[DESIGN]
+# Maximum number of arguments for function / method
+max-args=5
+
+# Maximum number of locals for function / method body
+max-locals=15
+
+# Maximum number of return / yield for function / method body
+max-returns=6
+
+# Maximum number of branch for function / method body
+max-branches=12
+
+# Maximum number of statements in function / method body
+max-statements=50
