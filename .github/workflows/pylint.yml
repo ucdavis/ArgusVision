@@ -23,5 +23,6 @@ jobs:
     - name: Analysing the code with pylint
       run: |
         # Run pylint on backend Python files, using .pylintrc from backend/app directory
+        # Fail if score is below 8.0/10
         cd backend/app
-        pylint *.py
+        pylint --fail-under=8.0 *.py
